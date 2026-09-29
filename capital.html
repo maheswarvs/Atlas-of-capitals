@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countries and capitals</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0; min-height:100vh; display:grid; place-items:center; padding:20px;
+  background:#cfe0dc; /* sea */
+  font-family:"IM Fell English",Georgia,"Times New Roman",serif; color:#3b2a1a;
+}
+.map{
+  background:#f4ead5; /* parchment */
+  border:6px double #8a6a3b; border-radius:6px;
+  padding:36px 40px 40px; max-width:620px; width:100%;
+  box-shadow:0 12px 30px rgba(59,42,26,.25);
+}
+h1{
+  font-family:"Playfair Display",Georgia,serif; font-weight:900;
+  font-size:clamp(1.6rem,4vw,2.2rem); margin:0 0 4px; text-align:center;
+}
+.sub{margin:0 0 26px; text-align:center; font-style:italic; color:#6b5335}
+.row{display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap; min-height:64px}
+select{
+  font:inherit; font-size:1.15rem; color:#3b2a1a; background:#fffaf0;
+  border:2px solid #8a6a3b; border-radius:4px; padding:8px 12px;
+}
+select:focus-visible{outline:3px solid #2f6f73; outline-offset:2px}
+
+/* Capital name: font colour, bold and size */
+#capital{
+  font-family:"Playfair Display",Georgia,serif;
+  font-weight:900;          /* bold */
+  font-size:2.6rem;         /* large */
+  color:#3b2a1a;            /* colour changes per country below */
+  transition:color .2s;
+}
+#capital[data-country="India"]{color:#b45309}
+#capital[data-country="France"]{color:#1d4ed8}
+#capital[data-country="Japan"]{color:#b91c1c}
+#capital[data-country="Brazil"]{color:#15803d}
+#capital[data-country="Egypt"]{color:#7c3aed}
+#capital.hint{font-size:1.1rem; font-weight:400; font-style:italic; color:#6b5335}
+@media (prefers-reduced-motion:reduce){#capital{transition:none}}
+</style>
+</head>
+<body>
+<main class="map">
+  <h1>Atlas of Capitals</h1>
+  <p class="sub">Choose a country to find its capital city.</p>
+  <div class="row">
+    <label for="country" class="sr" style="position:absolute;left:-9999px">Country</label>
+    <select id="country">
+      <option value="">Select a country</option>
+      <option value="India">India</option>
+      <option value="France">France</option>
+      <option value="Japan">Japan</option>
+      <option value="Brazil">Brazil</option>
+      <option value="Egypt">Egypt</option>
+    </select>
+    <span id="capital" class="hint" aria-live="polite">Capital appears here</span>
+  </div>
+</main>
+
+<script>
+const capitals = {India:"New Delhi", France:"Paris", Japan:"Tokyo", Brazil:"Brasília", Egypt:"Cairo"};
+const select = document.getElementById("country");
+const out = document.getElementById("capital");
+
+select.addEventListener("change", () => {
+  const c = select.value;
+  if (c) {
+    out.textContent = capitals[c];
+    out.dataset.country = c;
+    out.classList.remove("hint");
+  } else {
+    out.textContent = "Capital appears here";
+    delete out.dataset.country;
+    out.classList.add("hint");
+  }
+});
+</script>
+</body>
+</html>
